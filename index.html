@@ -1,0 +1,1959 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AMER Scrubs | Luxury Medical Apparel Store</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg-dark: #0b0f19;
+        --card-bg: rgba(18, 26, 43, 0.85);
+        --accent-gold: #f3c623;
+        --accent-gold-hover: #ffd84d;
+        --gold-glow: rgba(243, 198, 35, 0.35);
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --gold-border: rgba(243, 198, 35, 0.3);
+        --danger-color: #e11d48;
+        --nav-bg: rgba(11, 15, 25, 0.85);
+        --input-bg: rgba(7, 10, 18, 0.8);
+        --modal-bg: #0f1624;
+      }
+
+      /* Light Theme Colors */
+      [data-theme="light"] {
+        --bg-dark: #f8fafc;
+        --card-bg: #ffffff;
+        --accent-gold: #0284c7;
+        --accent-gold-hover: #0369a1;
+        --gold-glow: rgba(2, 132, 199, 0.2);
+        --text-main: #0f172a;
+        --text-muted: #475569;
+        --glass-border: rgba(15, 23, 42, 0.08);
+        --gold-border: rgba(2, 132, 199, 0.3);
+        --nav-bg: rgba(255, 255, 255, 0.95);
+        --input-bg: #f1f5f9;
+        --modal-bg: #ffffff;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Tajawal", sans-serif;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background-color: var(--bg-dark);
+        color: var(--text-main);
+        padding-bottom: 20px;
+        overflow-x: hidden;
+        position: relative;
+        transition:
+          background-color 0.4s ease,
+          color 0.4s ease;
+      }
+
+      /* الشاشة الترحيبية Welcome Screen */
+      .welcome-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(11, 15, 25, 0.95);
+        backdrop-filter: blur(20px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        opacity: 1;
+        transition:
+          opacity 0.8s ease,
+          visibility 0.8s ease;
+      }
+
+      [data-theme="light"] .welcome-screen {
+        background: rgba(248, 250, 252, 0.95);
+      }
+
+      .welcome-screen.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .welcome-content {
+        text-align: center;
+        padding: 40px;
+        border-radius: 24px;
+        background: var(--card-bg);
+        border: 1px solid var(--gold-border);
+        box-shadow: 0 0 50px var(--gold-glow);
+        transform: scale(0.9);
+        animation: popIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        max-width: 90%;
+        width: 450px;
+      }
+
+      @keyframes popIn {
+        to {
+          transform: scale(1);
+        }
+      }
+
+      .welcome-title {
+        font-size: 2.2rem;
+        font-weight: 900;
+        color: var(--text-main);
+        margin-bottom: 10px;
+      }
+
+      .welcome-title span {
+        color: var(--accent-gold);
+      }
+
+      .welcome-sub {
+        font-size: 1rem;
+        color: var(--text-muted);
+        margin-bottom: 25px;
+      }
+
+      .welcome-btn {
+        background: var(--accent-gold);
+        color: #000;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 800;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px var(--gold-glow);
+      }
+
+      .welcome-btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        background: var(--accent-gold-hover);
+      }
+
+      /* Animated Medical Background */
+      .bg-medical-animated {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -2;
+        background: radial-gradient(
+          circle at 50% 30%,
+          #111a2e 0%,
+          #070a12 100%
+        );
+        overflow: hidden;
+        transition: opacity 0.4s;
+      }
+
+      [data-theme="light"] .bg-medical-animated {
+        background: radial-gradient(
+          circle at 50% 30%,
+          #ffffff 0%,
+          #e2e8f0 100%
+        );
+      }
+
+      .ecg-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 200%;
+        height: 100%;
+        opacity: 0.12;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="200" viewBox="0 0 1200 200"><path d="M0,100 L400,100 L420,70 L435,140 L455,20 L475,170 L495,90 L510,110 L525,100 L1200,100" fill="none" stroke="%23f3c623" stroke-width="3"/></svg>');
+        background-repeat: repeat-x;
+        background-position: 0 40%;
+        animation: moveECG 18s linear infinite;
+      }
+
+      @keyframes moveECG {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+
+      .floating-particle {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          var(--accent-gold) 0%,
+          rgba(243, 198, 35, 0) 70%
+        );
+        opacity: 0.25;
+        animation: floatUp ease-in-out infinite alternate;
+      }
+
+      @keyframes floatUp {
+        0% {
+          transform: translateY(0) scale(1);
+          opacity: 0.15;
+        }
+        100% {
+          transform: translateY(-80px) scale(1.3);
+          opacity: 0.4;
+        }
+      }
+
+      .bg-glass-layer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        backdrop-filter: blur(2px);
+        pointer-events: none;
+      }
+
+      .top-bar {
+        background: rgba(7, 10, 18, 0.9);
+        color: var(--accent-gold);
+        text-align: center;
+        padding: 8px 15px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        border-bottom: 1px solid var(--glass-border);
+        backdrop-filter: blur(10px);
+      }
+      [data-theme="light"] .top-bar {
+        background: #0f172a;
+        color: #fbbf24;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 5%;
+        background: var(--nav-bg);
+        backdrop-filter: blur(15px);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        border-bottom: 1px solid var(--glass-border);
+        transition: background 0.4s;
+      }
+
+      .brand-logo {
+        font-size: 1.6rem;
+        font-weight: 900;
+        color: var(--text-main);
+        text-decoration: none;
+        letter-spacing: 1px;
+      }
+      .brand-logo span {
+        color: var(--accent-gold);
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 20px;
+      }
+      .nav-links a {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: 0.3s;
+      }
+      .nav-links a:hover {
+        color: var(--accent-gold);
+      }
+
+      .nav-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .lang-btn,
+      .cart-btn,
+      .theme-toggle-btn,
+      .size-chart-btn-nav {
+        background: rgba(243, 198, 35, 0.1);
+        border: 1px solid var(--gold-border);
+        color: var(--accent-gold);
+        padding: 8px 14px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: 0.3s;
+      }
+      .lang-btn:hover,
+      .cart-btn:hover,
+      .theme-toggle-btn:hover,
+      .size-chart-btn-nav:hover {
+        background: var(--accent-gold);
+        color: #fff;
+      }
+      .cart-count {
+        background: var(--danger-color);
+        color: #fff;
+        font-size: 0.75rem;
+        padding: 2px 7px;
+        border-radius: 50px;
+      }
+
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--text-main);
+        font-size: 1.6rem;
+        cursor: pointer;
+      }
+
+      .hero {
+        text-align: center;
+        padding: 50px 20px 30px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .hero h1 {
+        font-size: 2.8rem;
+        font-weight: 900;
+        margin-bottom: 15px;
+      }
+      .hero h1 span {
+        color: var(--accent-gold);
+      }
+      .hero p {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 0 4%;
+      }
+
+      .controls-wrapper {
+        background: var(--card-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 35px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      }
+
+      .search-box-wrapper {
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
+      }
+
+      .search-icon-inside {
+        position: absolute;
+        left: 18px;
+        color: var(--accent-gold);
+        font-size: 1.1rem;
+        pointer-events: none;
+        transition:
+          transform 0.3s ease,
+          color 0.3s ease;
+      }
+
+      html[dir="rtl"] .search-icon-inside {
+        left: auto;
+        right: 18px;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 14px 20px 14px 48px;
+        background: var(--input-bg);
+        border: 1px solid var(--gold-border);
+        border-radius: 50px;
+        color: var(--text-main);
+        font-size: 0.95rem;
+        font-weight: 600;
+        outline: none;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        backdrop-filter: blur(6px);
+      }
+
+      html[dir="rtl"] .search-input {
+        padding: 14px 48px 14px 20px;
+      }
+
+      .search-input::placeholder {
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+
+      .search-input:focus {
+        border-color: var(--accent-gold);
+        box-shadow: 0 0 20px var(--gold-glow);
+        transform: translateY(-2px);
+      }
+
+      .filters-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+      }
+      .filter-group {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .filter-btn {
+        background: rgba(0, 0, 0, 0.05);
+        border: 1px solid var(--glass-border);
+        color: var(--text-muted);
+        padding: 8px 20px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        font-weight: 700;
+        transition: 0.3s;
+      }
+      .filter-btn.active,
+      .filter-btn:hover {
+        background: var(--accent-gold);
+        color: #fff;
+        border-color: var(--accent-gold);
+        box-shadow: 0 4px 12px var(--gold-glow);
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+        margin-bottom: 60px;
+      }
+
+      .product-card {
+        background: var(--card-bg);
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--glass-border);
+        transition: 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        backdrop-filter: blur(10px);
+      }
+      .product-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--gold-border);
+        box-shadow: 0 10px 30px var(--gold-glow);
+      }
+
+      .img-box {
+        width: 100%;
+        height: 340px;
+        background: #000;
+        position: relative;
+        overflow: hidden;
+      }
+      .img-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top;
+        display: block;
+      }
+
+      .product-info {
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        justify-content: space-between;
+      }
+      .product-title {
+        font-size: 1.1rem;
+        font-weight: 800;
+        margin-bottom: 6px;
+      }
+      .product-desc {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        margin-bottom: 12px;
+        line-height: 1.4;
+      }
+      .price-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .price-tag {
+        font-size: 1.25rem;
+        color: var(--accent-gold);
+        font-weight: 900;
+      }
+      .old-price {
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        text-decoration: line-through;
+      }
+
+      .size-selector {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 15px;
+      }
+      .size-opt {
+        flex: 1;
+        text-align: center;
+        padding: 5px 0;
+        border: 1px solid var(--glass-border);
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 800;
+        cursor: pointer;
+        color: var(--text-muted);
+      }
+      .size-opt.selected {
+        border-color: var(--accent-gold);
+        color: #fff;
+        background: var(--accent-gold);
+      }
+
+      .add-cart-btn {
+        width: 100%;
+        padding: 10px;
+        background: rgba(243, 198, 35, 0.12);
+        border: 1px solid var(--gold-border);
+        color: var(--accent-gold);
+        border-radius: 10px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .add-cart-btn:hover {
+        background: var(--accent-gold);
+        color: #fff;
+      }
+
+      /* تنسيقات سيكشن About Us */
+      .about-section {
+        padding: 70px 0 40px;
+        border-top: 1px solid var(--glass-border);
+        margin-top: 40px;
+      }
+      .about-header {
+        text-align: center;
+        margin-bottom: 45px;
+      }
+      .about-header h2 {
+        font-size: 2.3rem;
+        font-weight: 900;
+        margin-bottom: 12px;
+      }
+      .about-header h2 span {
+        color: var(--accent-gold);
+      }
+      .about-header p {
+        color: var(--text-muted);
+        max-width: 750px;
+        margin: 0 auto;
+        font-size: 1.05rem;
+        line-height: 1.7;
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-bottom: 45px;
+      }
+
+      .about-card {
+        background: var(--card-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        padding: 28px;
+        backdrop-filter: blur(10px);
+        transition: all 0.35s ease;
+      }
+      .about-card:hover {
+        transform: translateY(-6px);
+        border-color: var(--gold-border);
+        box-shadow: 0 10px 30px var(--gold-glow);
+      }
+      .about-card-icon {
+        font-size: 2.4rem;
+        margin-bottom: 12px;
+        display: inline-block;
+      }
+      .about-card h3 {
+        font-size: 1.25rem;
+        font-weight: 800;
+        margin-bottom: 10px;
+        color: var(--text-main);
+      }
+      .about-card p {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .about-stats {
+        background: var(--card-bg);
+        border: 1px solid var(--gold-border);
+        border-radius: 20px;
+        padding: 35px 20px;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 20px;
+        text-align: center;
+        box-shadow: 0 8px 30px var(--gold-glow);
+      }
+      .stat-box h3 {
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: var(--accent-gold);
+      }
+      .stat-box p {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        font-weight: 700;
+      }
+
+      .modal-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(6px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 3000;
+        padding: 20px;
+      }
+      .modal-backdrop.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: var(--modal-bg);
+        border: 1px solid var(--gold-border);
+        border-radius: 20px;
+        max-width: 600px;
+        width: 100%;
+        padding: 25px;
+        position: relative;
+        color: var(--text-main);
+      }
+      .close-modal {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        color: var(--text-main);
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+      html[dir="rtl"] .close-modal {
+        right: auto;
+        left: 15px;
+      }
+
+      .size-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        font-size: 0.9rem;
+      }
+      .size-table th,
+      .size-table td {
+        border: 1px solid var(--glass-border);
+        padding: 10px;
+        text-align: center;
+      }
+      .size-table th {
+        background: rgba(243, 198, 35, 0.15);
+        color: var(--accent-gold);
+      }
+
+      .form-group {
+        margin-bottom: 12px;
+      }
+      .form-group label {
+        display: block;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+      }
+      .form-input {
+        width: 100%;
+        padding: 10px 12px;
+        background: var(--input-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 8px;
+        color: var(--text-main);
+        outline: none;
+      }
+      .form-input:focus {
+        border-color: var(--accent-gold);
+      }
+
+      .cart-drawer {
+        position: fixed;
+        top: 0;
+        right: -400px;
+        width: 400px;
+        max-width: 100%;
+        height: 100%;
+        background: var(--modal-bg);
+        backdrop-filter: blur(20px);
+        z-index: 2000;
+        transition: 0.3s ease;
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        border-left: 1px solid var(--glass-border);
+      }
+      html[dir="rtl"] .cart-drawer {
+        right: auto;
+        left: -400px;
+        border-left: none;
+        border-right: 1px solid var(--glass-border);
+      }
+      .cart-drawer.open {
+        right: 0;
+      }
+      html[dir="rtl"] .cart-drawer.open {
+        left: 0;
+      }
+
+      .drawer-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--glass-border);
+      }
+      .cart-items {
+        flex-grow: 1;
+        overflow-y: auto;
+        margin-top: 15px;
+      }
+
+      .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--glass-border);
+      }
+
+      .cart-qty-controls {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 6px;
+      }
+      .qty-btn {
+        background: rgba(243, 198, 35, 0.15);
+        border: 1px solid var(--gold-border);
+        color: var(--accent-gold);
+        width: 26px;
+        height: 26px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: 0.2s;
+      }
+      .qty-btn:hover {
+        background: var(--accent-gold);
+        color: #fff;
+      }
+      .qty-num {
+        font-size: 0.85rem;
+        font-weight: 800;
+        min-width: 20px;
+        text-align: center;
+      }
+
+      .remove-item-btn {
+        background: rgba(225, 29, 72, 0.15);
+        border: 1px solid var(--danger-color);
+        color: var(--danger-color);
+        border-radius: 6px;
+        padding: 4px 8px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        transition: 0.2s;
+      }
+      .remove-item-btn:hover {
+        background: var(--danger-color);
+        color: #fff;
+      }
+
+      .clear-cart-btn {
+        width: 100%;
+        background: transparent;
+        border: 1px solid var(--danger-color);
+        color: var(--danger-color);
+        padding: 8px;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+        margin-bottom: 10px;
+        transition: 0.3s;
+      }
+      .clear-cart-btn:hover {
+        background: var(--danger-color);
+        color: #fff;
+      }
+
+      .checkout-btn {
+        width: 100%;
+        background: var(--accent-gold);
+        color: #fff;
+        border: none;
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: none;
+        z-index: 1500;
+      }
+      .overlay.active {
+        display: block;
+      }
+
+      .footer-social {
+        background: var(--card-bg);
+        border-top: 1px solid var(--glass-border);
+        padding: 50px 20px 30px;
+        margin-top: 60px;
+        text-align: center;
+        backdrop-filter: blur(15px);
+      }
+      .footer-social h3 {
+        font-size: 1.5rem;
+        color: var(--text-main);
+        margin-bottom: 8px;
+        font-weight: 800;
+      }
+      .footer-social h3 span {
+        color: var(--accent-gold);
+      }
+      .footer-social p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        margin-bottom: 30px;
+      }
+
+      .social-cards-grid {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .social-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 24px;
+        background: rgba(18, 26, 43, 0.05);
+        border: 1px solid var(--glass-border);
+        border-radius: 16px;
+        color: var(--text-main);
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.95rem;
+        backdrop-filter: blur(10px);
+        transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .social-card .social-icon {
+        width: 28px;
+        height: 28px;
+        fill: currentColor;
+        transition: transform 0.3s ease;
+      }
+
+      .social-card:hover {
+        transform: translateY(-6px) scale(1.03);
+      }
+      .social-card:hover .social-icon {
+        transform: scale(1.15) rotate(-5deg);
+      }
+
+      .social-card.facebook:hover {
+        border-color: #1877f2;
+        background: rgba(24, 119, 242, 0.15);
+        color: #1877f2;
+        box-shadow: 0 10px 25px rgba(24, 119, 242, 0.25);
+      }
+
+      .social-card.instagram:hover {
+        border-color: #e4405f;
+        background: rgba(228, 64, 95, 0.15);
+        color: #e4405f;
+        box-shadow: 0 10px 25px rgba(228, 64, 95, 0.25);
+      }
+
+      .social-card.tiktok:hover {
+        border-color: #00f2fe;
+        background: rgba(0, 242, 254, 0.12);
+        color: #00f2fe;
+        box-shadow: 0 10px 25px rgba(0, 242, 254, 0.25);
+      }
+
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: block;
+        }
+        .nav-links {
+          position: fixed;
+          top: 60px;
+          left: -100%;
+          width: 220px;
+          height: calc(100vh - 60px);
+          background: var(--bg-dark);
+          flex-direction: column;
+          padding: 25px;
+          transition: 0.3s;
+          border-right: 1px solid var(--glass-border);
+        }
+        html[dir="rtl"] .nav-links {
+          left: auto;
+          right: -100%;
+          border-right: none;
+          border-left: 1px solid var(--glass-border);
+        }
+        .nav-links.active {
+          left: 0;
+        }
+        html[dir="rtl"] .nav-links.active {
+          right: 0;
+        }
+        .hero h1 {
+          font-size: 2rem;
+        }
+        .filters-row {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .social-cards-grid {
+          flex-direction: column;
+          align-items: stretch;
+          padding: 0 10px;
+        }
+        .social-card {
+          justify-content: center;
+        }
+        .about-stats {
+          flex-direction: column;
+          gap: 25px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Welcome Screen Modal -->
+    <div class="welcome-screen" id="welcomeScreen">
+      <div class="welcome-content">
+        <h2 class="welcome-title" id="welcomeTitle">
+          Welcome to <span>AMER Scrubs</span>
+        </h2>
+        <p class="welcome-sub" id="welcomeSub">
+          Discover Premium & Modern Medical Apparel
+        </p>
+        <button
+          class="welcome-btn"
+          onclick="closeWelcomeScreen()"
+          id="welcomeBtn"
+        >
+          Explore Collection ✨
+        </button>
+      </div>
+    </div>
+
+    <!-- Background Animated Layer -->
+    <div class="bg-medical-animated">
+      <div class="ecg-overlay"></div>
+      <div
+        class="floating-particle"
+        style="
+          width: 140px;
+          height: 140px;
+          top: 15%;
+          left: 10%;
+          animation-duration: 8s;
+        "
+      ></div>
+      <div
+        class="floating-particle"
+        style="
+          width: 200px;
+          height: 200px;
+          top: 55%;
+          left: 75%;
+          animation-duration: 12s;
+        "
+      ></div>
+      <div
+        class="floating-particle"
+        style="
+          width: 90px;
+          height: 90px;
+          top: 75%;
+          left: 20%;
+          animation-duration: 6s;
+        "
+      ></div>
+    </div>
+
+    <div class="bg-glass-layer"></div>
+
+    <!-- Announcement Bar -->
+    <div class="top-bar" id="topBar">
+      ✨ AMER Scrubs Collection 2026 - Premium & Wrinkle-Resistant Fabrics ✨
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a href="#" class="brand-logo">AMER <span>Scrubs</span></a>
+
+      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#" id="navHome">Home</a></li>
+        <li><a href="#products" id="navProducts">Products</a></li>
+        <li><a href="#about" id="navAbout">About Us</a></li>
+        <li>
+          <a href="#" onclick="openSizeModal()" id="navSizeGuide"
+            >Size Guide 📏</a
+          >
+        </li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn">
+          🌙 Mode
+        </button>
+        <button class="lang-btn" onclick="toggleLanguage()">
+          🌐 <span id="langText">عربي</span>
+        </button>
+        <button
+          class="size-chart-btn-nav"
+          onclick="openSizeModal()"
+          id="navSizeBtn"
+        >
+          📏 Size Guide
+        </button>
+        <button class="cart-btn" onclick="toggleCart()">
+          🛒 <span id="cartBtnLabel">Cart</span>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1 id="heroTitle">
+        Elegance & Comfort in <span>Your Medical Routine</span>
+      </h1>
+      <p id="heroDesc">
+        Specially designed scrubs and lab coats giving you maximum flexibility
+        and a modern professional look during long shifts.
+      </p>
+    </section>
+
+    <!-- Main Container -->
+    <main class="container">
+      <div class="controls-wrapper" id="products">
+        <div class="search-box-wrapper">
+          <span class="search-icon-inside">🔍</span>
+          <input
+            type="text"
+            id="searchInput"
+            class="search-input"
+            placeholder="Search product name, color, or specifications..."
+            oninput="filterProducts()"
+          />
+        </div>
+
+        <div class="filters-row">
+          <div class="filter-group">
+            <button
+              class="filter-btn active"
+              onclick="setCategory('all', this)"
+              id="catAll"
+            >
+              All
+            </button>
+            <button
+              class="filter-btn"
+              onclick="setCategory('men', this)"
+              id="catMen"
+            >
+              Men
+            </button>
+            <button
+              class="filter-btn"
+              onclick="setCategory('women', this)"
+              id="catWomen"
+            >
+              Women
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="product-grid" id="productGrid"></div>
+
+      <!-- About Us Section -->
+      <section class="about-section" id="about">
+        <div class="about-header">
+          <h2 id="aboutTitle">About <span>AMER Scrubs</span></h2>
+          <p id="aboutDesc">
+            Redefining medical apparel by blending luxury aesthetics, ergonomic
+            comfort, and high-performance fabrics engineered specifically for
+            Healthcare Professionals.
+          </p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-card">
+            <span class="about-card-icon">🧵</span>
+            <h3 id="abCardTitle1">Premium Fabrics</h3>
+            <p id="abCardDesc1">
+              We use advanced 4-way stretch, ultra-soft, and wrinkle-resistant
+              materials designed to withstand intensive daily shifts without
+              losing shape.
+            </p>
+          </div>
+
+          <div class="about-card">
+            <span class="about-card-icon">🩺</span>
+            <h3 id="abCardTitle2">Designed for Professionals</h3>
+            <p id="abCardDesc2">
+              Every scrub set is tailored with multi-functional utility pockets,
+              reinforced stitching, and ergonomic fits for maximum freedom of
+              movement.
+            </p>
+          </div>
+
+          <div class="about-card">
+            <span class="about-card-icon">✨</span>
+            <h3 id="abCardTitle3">Modern Elegance</h3>
+            <p id="abCardDesc3">
+              Who says medical wear can't be stylish? We bring haute-couture
+              standards to scrub design so you look sharp and confident all day.
+            </p>
+          </div>
+        </div>
+
+        <div class="about-stats">
+          <div class="stat-box">
+            <h3>100%</h3>
+            <p id="abStat1">Wrinkle Resistant</p>
+          </div>
+          <div class="stat-box">
+            <h3>4-Way</h3>
+            <p id="abStat2">Stretch Flexibility</p>
+          </div>
+          <div class="stat-box">
+            <h3>2026</h3>
+            <p id="abStat3">New Collection</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Size Chart Modal -->
+    <div class="modal-backdrop" id="sizeModal">
+      <div class="modal-content">
+        <button class="close-modal" onclick="closeSizeModal()">&times;</button>
+        <h2
+          id="modalSizeTitle"
+          style="
+            color: var(--accent-gold);
+            font-weight: 800;
+            margin-bottom: 10px;
+          "
+        >
+          📏 Size Guide Chart
+        </h2>
+        <p
+          id="modalSizeSub"
+          style="
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+          "
+        >
+          All measurements are in centimeters (cm) to help you pick the right
+          fit:
+        </p>
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th id="thSize">Size</th>
+              <th id="thChest">Chest</th>
+              <th id="thWaist">Waist</th>
+              <th id="thHeight">Height</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>S</td>
+              <td>90 - 96 cm</td>
+              <td>76 - 82 cm</td>
+              <td>160 - 170 cm</td>
+            </tr>
+            <tr>
+              <td>M</td>
+              <td>97 - 104 cm</td>
+              <td>83 - 90 cm</td>
+              <td>170 - 175 cm</td>
+            </tr>
+            <tr>
+              <td>L</td>
+              <td>105 - 112 cm</td>
+              <td>91 - 98 cm</td>
+              <td>175 - 180 cm</td>
+            </tr>
+            <tr>
+              <td>XL</td>
+              <td>113 - 120 cm</td>
+              <td>99 - 106 cm</td>
+              <td>180 - 188 cm</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal-backdrop" id="checkoutModal">
+      <div class="modal-content">
+        <button class="close-modal" onclick="closeCheckoutModal()">
+          &times;
+        </button>
+        <h2
+          id="checkoutTitle"
+          style="
+            color: var(--accent-gold);
+            font-weight: 800;
+            margin-bottom: 15px;
+          "
+        >
+          🚀 Direct Order Checkout
+        </h2>
+        <form onsubmit="submitOrder(event)">
+          <div class="form-group">
+            <label id="lblCustName">Full Name</label>
+            <input
+              type="text"
+              required
+              id="custName"
+              class="form-input"
+              placeholder="Dr. Mahmoud Ahmed"
+            />
+          </div>
+          <div class="form-group">
+            <label id="lblCustPhone">Phone / WhatsApp Number</label>
+            <input
+              type="tel"
+              required
+              id="custPhone"
+              class="form-input"
+              placeholder="+201027530749"
+            />
+          </div>
+          <div class="form-group">
+            <label id="lblCustAddr">Detailed Address & City</label>
+            <input
+              type="text"
+              required
+              id="custAddress"
+              class="form-input"
+              placeholder="Menofia - Shebin El-Kom..."
+            />
+          </div>
+          <button
+            type="submit"
+            class="checkout-btn"
+            id="btnSubmitOrder"
+            style="margin-top: 15px"
+          >
+            Confirm & Send via WhatsApp 💬
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+    <!-- Cart Drawer -->
+    <div class="cart-drawer" id="cartDrawer">
+      <div class="drawer-header">
+        <h3 id="cartDrawerTitle">Shopping Cart</h3>
+        <button class="close-modal" onclick="toggleCart()">&times;</button>
+      </div>
+
+      <div class="cart-items" id="cartItems"></div>
+
+      <div
+        style="
+          border-top: 1px solid var(--glass-border);
+          padding-top: 15px;
+          margin-top: 10px;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            font-weight: 800;
+            margin-bottom: 12px;
+          "
+        >
+          <span id="cartTotalLabel">Total:</span>
+          <span id="cartTotal" style="color: var(--accent-gold)">0 EGP</span>
+        </div>
+
+        <button class="clear-cart-btn" onclick="clearCart()" id="btnClearCart">
+          Clear Cart 🗑️
+        </button>
+        <button
+          class="checkout-btn"
+          onclick="openCheckoutModal()"
+          id="btnProceedCheckout"
+        >
+          Proceed to Checkout 💳
+        </button>
+      </div>
+    </div>
+
+    <!-- Social Media Footer -->
+    <footer class="footer-social">
+      <h3 id="footerTitle">Follow <span>AMER Scrubs</span></h3>
+      <p id="footerSub">
+        Stay updated with our latest medical apparel collections and exclusive
+        offers
+      </p>
+      <div class="social-cards-grid">
+        <a
+          href="https://www.facebook.com/share/14urQKiKi7U/?mibextid=wwXIfr"
+          target="_blank"
+          class="social-card facebook"
+        >
+          <svg class="social-icon" viewBox="0 0 24 24">
+            <path
+              d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+            />
+          </svg>
+          <span>Facebook</span>
+        </a>
+        <a
+          href="https://www.instagram.com/3amer.medicalwear?stkn=c21wemdzbW55ZWhj&utm_source=qr"
+          target="_blank"
+          class="social-card instagram"
+        >
+          <svg class="social-icon" viewBox="0 0 24 24">
+            <path
+              d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+            />
+          </svg>
+          <span>Instagram</span>
+        </a>
+        <a
+          href="https://www.tiktok.com/@3amer.medicalwear?_r=1&_t=ZS-99jXt2A5Vju"
+          target="_blank"
+          class="social-card tiktok"
+        >
+          <svg class="social-icon" viewBox="0 0 24 24">
+            <path
+              d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.82.57-1.31 1.56-1.28 2.56.02 1.2.73 2.31 1.81 2.82.95.46 2.09.43 3.03-.07.9-.47 1.5-1.41 1.56-2.42.05-3.38.02-6.77.03-10.15z"
+            />
+          </svg>
+          <span>TikTok</span>
+        </a>
+      </div>
+    </footer>
+
+    <script>
+      let currentLang = "en";
+      let currentTheme = localStorage.getItem("amer_theme") || "dark";
+
+      const i18n = {
+        en: {
+          welcomeTitle: "Welcome to <span>AMER Scrubs</span>",
+          welcomeSub: "Discover Premium & Modern Medical Apparel",
+          welcomeBtn: "Explore Collection ✨",
+          topBar:
+            "✨ AMER Scrubs Collection 2026 - Premium & Wrinkle-Resistant Fabrics ✨",
+          navHome: "Home",
+          navProducts: "Products",
+          navAbout: "About Us",
+          navSizeGuide: "Size Guide 📏",
+          navSizeBtn: "📏 Size Guide",
+          cartBtnLabel: "Cart",
+          heroTitle: "Elegance & Comfort in <span>Your Medical Routine</span>",
+          heroDesc:
+            "Specially designed scrubs and lab coats giving you maximum flexibility and a modern professional look during long shifts.",
+          searchPlaceholder: "Search product name, color, or specifications...",
+          catAll: "All",
+          catMen: "Men",
+          catWomen: "Women",
+          addToCart: "Add to Cart 🛒",
+          currency: "EGP",
+          aboutTitle: "About <span>AMER Scrubs</span>",
+          aboutDesc:
+            "Redefining medical apparel by blending luxury aesthetics, ergonomic comfort, and high-performance fabrics engineered specifically for Healthcare Professionals.",
+          abCardTitle1: "Premium Fabrics",
+          abCardDesc1:
+            "We use advanced 4-way stretch, ultra-soft, and wrinkle-resistant materials designed to withstand intensive daily shifts without losing shape.",
+          abCardTitle2: "Designed for Professionals",
+          abCardDesc2:
+            "Every scrub set is tailored with multi-functional utility pockets, reinforced stitching, and ergonomic fits for maximum freedom of movement.",
+          abCardTitle3: "Modern Elegance",
+          abCardDesc3:
+            "Who says medical wear can't be stylish? We bring haute-couture standards to scrub design so you look sharp and confident all day.",
+          abStat1: "Wrinkle Resistant",
+          abStat2: "Stretch Flexibility",
+          abStat3: "New Collection",
+          modalSizeTitle: "📏 Size Guide Chart",
+          modalSizeSub:
+            "All measurements are in centimeters (cm) to help you pick the right fit:",
+          thSize: "Size",
+          thChest: "Chest",
+          thWaist: "Waist",
+          thHeight: "Height",
+          checkoutTitle: "🚀 Direct Order Checkout",
+          lblCustName: "Full Name",
+          lblCustPhone: "Phone / WhatsApp Number",
+          lblCustAddr: "Detailed Address & City",
+          btnSubmitOrder: "Confirm & Send via WhatsApp 💬",
+          cartDrawerTitle: "Shopping Cart",
+          cartTotalLabel: "Total:",
+          btnProceedCheckout: "Proceed to Checkout 💳",
+          btnClearCart: "Clear Cart 🗑️",
+          emptyCartText: "Your cart is empty.",
+          confirmClear: "Are you sure you want to clear the cart?",
+          footerTitle: "Follow <span>AMER Scrubs</span>",
+          footerSub:
+            "Stay updated with our latest medical apparel collections and exclusive offers",
+          langBtn: "عربي",
+        },
+        ar: {
+          welcomeTitle: "مرحباً بكم في <span>عامِر سكرابز</span>",
+          welcomeSub: "اكتشف الفخامة والراحة في الأزياء الطبية الحديثة",
+          welcomeBtn: "تصفح التشكيلة ✨",
+          topBar: "✨ تشكيلة عامِر سكرابز 2026 - خامات فاخرة ومقاومة للتجعد ✨",
+          navHome: "الرئيسية",
+          navProducts: "المنتجات",
+          navAbout: "عن البراند",
+          navSizeGuide: "دليل المقاسات 📏",
+          navSizeBtn: "📏 دليل المقاسات",
+          cartBtnLabel: "السلة",
+          heroTitle: "الأناقة والراحة في <span>يومك الطبي</span>",
+          heroDesc:
+            "سكرابات وبالطوهات مصممة خصيصاً لتمنحك أقصى مرونة ومظهر احترافي عصري أثناء نوبتجياتك طويلة الساعات.",
+          searchPlaceholder: "ابحث باسم المنتج، اللون، أو المواصفات...",
+          catAll: "الكل",
+          catMen: "رجالي",
+          catWomen: "حريمي",
+          addToCart: "أضف للسلة 🛒",
+          currency: "جنيه",
+          aboutTitle: "عن <span>عامِر سكرابز</span>",
+          aboutDesc:
+            "نعيد تعريف الأزياء الطبية بإعادة المزج بين الأناقة الفاخرة، الراحة التامة، والخامات عالية الأداء المصممة خصيصاً لأبطال الرعاية الصحية.",
+          abCardTitle1: "خامات فاخرة ومقاومة",
+          abCardDesc1:
+            "نستخدم أقمشة ليكرا مرنة في 4 اتجاهات، فائقة النعومة ومقاومة للتجعد، مصممة لـتتحمل ساعات العمل الشاقة دون أن تفقد رونقها.",
+          abCardTitle2: "تصميم احترافي متكامل",
+          abCardDesc2:
+            "كل طقم سكراب مزود بجيوب متعددة الاستخدامات، تقفيل خياطة ممتد، وقصات مريحة تمنحك أقصى درجات حرية الحركة أثناء عملك.",
+          abCardTitle3: "أناقة معاصرة",
+          abCardDesc3:
+            "من قال إن الملابس الطبية لا يمكن أن تكون أنيقة؟ نحن نضيف لمسات التصميم العصري لسكراباتك لتبدو واثقاً ومتألقاً طوال اليوم.",
+          abStat1: "مقاوم للتجعد",
+          abStat2: "مرونة 4 اتجاهات",
+          abStat3: "تشكيلة 2026",
+          modalSizeTitle: "📏 جدول المقاسات",
+          modalSizeSub:
+            "جميع القياسات بالسنتيمتر (سم) لمساعدتك في اختيار المقاس المناسب:",
+          thSize: "المقاس",
+          thChest: "محيط الصدر",
+          thWaist: "محيط الخصر",
+          thHeight: "الطول المناسب",
+          checkoutTitle: "🚀 إتمام الطلب المباشر",
+          lblCustName: "الاسم بالكامل",
+          lblCustPhone: "رقم الهاتف / الواتساب",
+          lblCustAddr: "العنوان التفصيلي والمدينة",
+          btnSubmitOrder: "تأكيد وإرسال عبر الواتساب 💬",
+          cartDrawerTitle: "سلة الشراء",
+          cartTotalLabel: "الإجمالي:",
+          btnProceedCheckout: "المتابعة للشراء 💳",
+          btnClearCart: "تفريغ السلة بالكامل 🗑️",
+          emptyCartText: "سلة الشراء فارغة حالياً.",
+          confirmClear: "هل أنت تأكد من رغبتك في تفريغ السلة بالكامل؟",
+          footerTitle: "تابع <span>عامِر سكرابز</span>",
+          footerSub:
+            "ابقَ على اطلاع بأحدث مجموعات السكرابات الطبية والعروض الحصرية",
+          langBtn: "English",
+        },
+      };
+
+      const productsData = [
+        {
+          id: 1,
+          title: { en: "Women's Grey Scrub Set", ar: "طقم سكراب حريمي رمادي" },
+          desc: {
+            en: "Ultra-soft, 4-way stretch, wrinkle-resistant fabric.",
+            ar: "خامة ناعمة ومريحة، مرونة عالية، ومقاوم للتجعد.",
+          },
+          price: 850,
+          oldPrice: 1050,
+          category: "women",
+          image: "women-grey.jpeg",
+        },
+        {
+          id: 2,
+          title: { en: "Women's Navy Scrub Set", ar: "طقم سكراب حريمي كحلي" },
+          desc: {
+            en: "Ergonomic fit, breathable, moisture-wicking technology.",
+            ar: "تصميم مريح وأنيق، قابل للتهوية ويمنع التعرق.",
+          },
+          price: 850,
+          oldPrice: 1050,
+          category: "women",
+          image: "women-navy.jpeg",
+        },
+        {
+          id: 3,
+          title: { en: "Women's Black Scrub Set", ar: "طقم سكراب حريمي أسود" },
+          desc: {
+            en: "Sleek dark finish, durable performance, antibacterial.",
+            ar: "لون أسود ملكي مريح، متين ومضاد للبكتيريا.",
+          },
+          price: 850,
+          oldPrice: 1050,
+          category: "women",
+          image: "women-black.jpeg",
+        },
+        {
+          id: 4,
+          title: {
+            en: "Women's Burgundy Scrub Set",
+            ar: "طقم سكراب حريمي عنابي",
+          },
+          desc: {
+            en: "Rich burgundy shade, soft texture, high flexibility.",
+            ar: "لون عنابي فاخر، خامة ناعمة ومريحة مع جيوب متعددة.",
+          },
+          price: 850,
+          oldPrice: 1050,
+          category: "women",
+          image: "women-burgundy.jpeg",
+        },
+        {
+          id: 5,
+          title: { en: "Men's Navy Scrub Set", ar: "طقم سكراب رجالي كحلي" },
+          desc: {
+            en: "Athletic V-neck cut, lightweight, 4-way stretch.",
+            ar: "قصة V عصرية مريحة، خفيف الوزن وسهل الحركة.",
+          },
+          price: 850,
+          oldPrice: 1050,
+          category: "men",
+          image: "men-navy.jpeg",
+        },
+        {
+          id: 6,
+          title: { en: "Men's Grey Scrub Set", ar: "طقم سكراب رجالي رمادي" },
+          desc: {
+            en: "Modern grey aesthetic, durable fabric, anti-microbial.",
+            ar: "تصميم رمادي أنيق، متين ومقاوم للاستخدام المتكرر.",
+          },
+          price: 850,
+          oldPrice: 1050,
+          category: "men",
+          image: "men-grey.jpeg",
+        },
+        {
+          id: 7,
+          title: {
+            en: "Men's Burgundy Scrub Set",
+            ar: "طقم سكراب رجالي عنابي",
+          },
+          desc: {
+            en: "Deep burgundy color, high color fastness, breathable.",
+            ar: "لون عنابي مميز، ثبات عالي في الألوان، وقابل للتهوية.",
+          },
+          price: 850,
+          oldPrice: 1050,
+          category: "men",
+          image: "men-burgundy.jpeg",
+        },
+        {
+          id: 8,
+          title: { en: "Men's Black Scrub Set", ar: "طقم سكراب رجالي أسود" },
+          desc: {
+            en: "Classic black scrub, maximum durability, cargo pockets.",
+            ar: "أسود كلاسيكي فاخر، متانة عالية، مع جيوب كارجو عملية.",
+          },
+          price: 850,
+          oldPrice: 1050,
+          category: "men",
+          image: "men-black.jpeg",
+        },
+      ];
+
+      let cart = [];
+      let selectedSizes = {};
+      let currentCat = "all";
+
+      function closeWelcomeScreen() {
+        const welcome = document.getElementById("welcomeScreen");
+        if (welcome) {
+          welcome.classList.add("hidden");
+        }
+      }
+
+      function applyTheme(theme) {
+        currentTheme = theme;
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("amer_theme", theme);
+        const themeBtn = document.getElementById("themeBtn");
+        if (themeBtn) {
+          themeBtn.innerText = theme === "dark" ? "🌙 Dark" : "☀️ Light";
+        }
+      }
+
+      function toggleTheme() {
+        const nextTheme = currentTheme === "dark" ? "light" : "dark";
+        applyTheme(nextTheme);
+      }
+
+      function toggleLanguage() {
+        currentLang = currentLang === "en" ? "ar" : "en";
+        document.documentElement.lang = currentLang;
+        document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
+        applyTranslations();
+        renderProducts(getFilteredProducts());
+        updateCartUI();
+      }
+
+      function applyTranslations() {
+        const t = i18n[currentLang];
+        document.getElementById("welcomeTitle").innerHTML = t.welcomeTitle;
+        document.getElementById("welcomeSub").innerText = t.welcomeSub;
+        document.getElementById("welcomeBtn").innerText = t.welcomeBtn;
+        document.getElementById("topBar").innerText = t.topBar;
+        document.getElementById("navHome").innerText = t.navHome;
+        document.getElementById("navProducts").innerText = t.navProducts;
+        document.getElementById("navAbout").innerText = t.navAbout;
+        document.getElementById("navSizeGuide").innerText = t.navSizeGuide;
+        document.getElementById("navSizeBtn").innerText = t.navSizeBtn;
+        document.getElementById("cartBtnLabel").innerText = t.cartBtnLabel;
+        document.getElementById("langText").innerText = t.langBtn;
+        document.getElementById("heroTitle").innerHTML = t.heroTitle;
+        document.getElementById("heroDesc").innerText = t.heroDesc;
+        document.getElementById("searchInput").placeholder =
+          t.searchPlaceholder;
+        document.getElementById("catAll").innerText = t.catAll;
+        document.getElementById("catMen").innerText = t.catMen;
+        document.getElementById("catWomen").innerText = t.catWomen;
+        document.getElementById("aboutTitle").innerHTML = t.aboutTitle;
+        document.getElementById("aboutDesc").innerText = t.aboutDesc;
+        document.getElementById("abCardTitle1").innerText = t.abCardTitle1;
+        document.getElementById("abCardDesc1").innerText = t.abCardDesc1;
+        document.getElementById("abCardTitle2").innerText = t.abCardTitle2;
+        document.getElementById("abCardDesc2").innerText = t.abCardDesc2;
+        document.getElementById("abCardTitle3").innerText = t.abCardTitle3;
+        document.getElementById("abCardDesc3").innerText = t.abCardDesc3;
+        document.getElementById("abStat1").innerText = t.abStat1;
+        document.getElementById("abStat2").innerText = t.abStat2;
+        document.getElementById("abStat3").innerText = t.abStat3;
+        document.getElementById("modalSizeTitle").innerText = t.modalSizeTitle;
+        document.getElementById("modalSizeSub").innerText = t.modalSizeSub;
+        document.getElementById("thSize").innerText = t.thSize;
+        document.getElementById("thChest").innerText = t.thChest;
+        document.getElementById("thWaist").innerText = t.thWaist;
+        document.getElementById("thHeight").innerText = t.thHeight;
+        document.getElementById("checkoutTitle").innerText = t.checkoutTitle;
+        document.getElementById("lblCustName").innerText = t.lblCustName;
+        document.getElementById("lblCustPhone").innerText = t.lblCustPhone;
+        document.getElementById("lblCustAddr").innerText = t.lblCustAddr;
+        document.getElementById("btnSubmitOrder").innerText = t.btnSubmitOrder;
+        document.getElementById("cartDrawerTitle").innerText =
+          t.cartDrawerTitle;
+        document.getElementById("cartTotalLabel").innerText = t.cartTotalLabel;
+        document.getElementById("btnClearCart").innerText = t.btnClearCart;
+        document.getElementById("btnProceedCheckout").innerText =
+          t.btnProceedCheckout;
+        document.getElementById("footerTitle").innerHTML = t.footerTitle;
+        document.getElementById("footerSub").innerText = t.footerSub;
+      }
+
+      function getFilteredProducts() {
+        const q = document.getElementById("searchInput").value.toLowerCase();
+        return productsData.filter((p) => {
+          const title = p.title[currentLang].toLowerCase();
+          const desc = p.desc[currentLang].toLowerCase();
+          return (
+            (currentCat === "all" || p.category === currentCat) &&
+            (title.includes(q) || desc.includes(q))
+          );
+        });
+      }
+
+      function renderProducts(items) {
+        const grid = document.getElementById("productGrid");
+        const t = i18n[currentLang];
+        grid.innerHTML = "";
+
+        items.forEach((p) => {
+          if (!selectedSizes[p.id]) selectedSizes[p.id] = "M";
+
+          grid.innerHTML += `
+          <div class="product-card">
+            <div class="img-box">
+              <img src="${p.image}" alt="${p.title[currentLang]}">
+            </div>
+            <div class="product-info">
+              <div>
+                <h3 class="product-title">${p.title[currentLang]}</h3>
+                <p class="product-desc">${p.desc[currentLang]}</p>
+                <div class="price-container">
+                  <div class="price-tag">${p.price} ${t.currency}</div>
+                  <div class="old-price">${p.oldPrice} ${t.currency}</div>
+                </div>
+                <div class="size-selector">
+                  ${["S", "M", "L", "XL"]
+                    .map(
+                      (s) =>
+                        `<span class="size-opt ${selectedSizes[p.id] === s ? "selected" : ""}" onclick="chooseSize(${p.id}, '${s}', this)">${s}</span>`,
+                    )
+                    .join("")}
+                </div>
+              </div>
+              <button class="add-cart-btn" onclick="addToCart(${p.id})">${t.addToCart}</button>
+            </div>
+          </div>
+        `;
+        });
+      }
+
+      function chooseSize(id, size, elem) {
+        selectedSizes[id] = size;
+        elem.parentElement
+          .querySelectorAll(".size-opt")
+          .forEach((el) => el.classList.remove("selected"));
+        elem.classList.add("selected");
+      }
+
+      function filterProducts() {
+        renderProducts(getFilteredProducts());
+      }
+
+      function setCategory(cat, btn) {
+        currentCat = cat;
+        document
+          .querySelectorAll(".filter-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        filterProducts();
+      }
+
+      function addToCart(id) {
+        const prod = productsData.find((p) => p.id === id);
+        const size = selectedSizes[id];
+        const idx = cart.findIndex((c) => c.id === id && c.size === size);
+        if (idx > -1) cart[idx].qty++;
+        else cart.push({ ...prod, size, qty: 1 });
+        updateCartUI();
+        toggleCart();
+      }
+
+      function changeQuantity(id, size, delta) {
+        const idx = cart.findIndex((c) => c.id === id && c.size === size);
+        if (idx > -1) {
+          cart[idx].qty += delta;
+          if (cart[idx].qty <= 0) {
+            cart.splice(idx, 1);
+          }
+        }
+        updateCartUI();
+      }
+
+      function removeFromCart(id, size) {
+        cart = cart.filter((item) => !(item.id === id && item.size === size));
+        updateCartUI();
+      }
+
+      function clearCart() {
+        if (!cart.length) return;
+        const t = i18n[currentLang];
+        if (confirm(t.confirmClear)) {
+          cart = [];
+          updateCartUI();
+        }
+      }
+
+      function updateCartUI() {
+        const t = i18n[currentLang];
+        document.getElementById("cartCount").innerText = cart.reduce(
+          (a, b) => a + b.qty,
+          0,
+        );
+        const container = document.getElementById("cartItems");
+        let total = 0;
+
+        if (cart.length === 0) {
+          container.innerHTML = `<p style="text-align:center; color:var(--text-muted); margin-top:40px;">${t.emptyCartText}</p>`;
+        } else {
+          container.innerHTML = cart
+            .map((item) => {
+              total += item.price * item.qty;
+              return `
+            <div class="cart-item">
+              <div>
+                <div style="font-weight:700;">${item.title[currentLang]} (${item.size})</div>
+                <div style="color:var(--accent-gold);">${item.price * item.qty} ${t.currency}</div>
+                <div class="cart-qty-controls">
+                  <button class="qty-btn" onclick="changeQuantity(${item.id}, '${item.size}', -1)">-</button>
+                  <span class="qty-num">${item.qty}</span>
+                  <button class="qty-btn" onclick="changeQuantity(${item.id}, '${item.size}', 1)">+</button>
+                </div>
+              </div>
+              <button class="remove-item-btn" onclick="removeFromCart(${item.id}, '${item.size}')">🗑️</button>
+            </div>
+          `;
+            })
+            .join("");
+        }
+
+        document.getElementById("cartTotal").innerText =
+          total + " " + t.currency;
+      }
+
+      function toggleCart() {
+        document.getElementById("cartDrawer").classList.toggle("open");
+        document.getElementById("overlay").classList.toggle("active");
+      }
+      function closeCart() {
+        document.getElementById("cartDrawer").classList.remove("open");
+        document.getElementById("overlay").classList.remove("active");
+      }
+
+      function openSizeModal() {
+        document.getElementById("sizeModal").classList.add("active");
+      }
+      function closeSizeModal() {
+        document.getElementById("sizeModal").classList.remove("active");
+      }
+
+      function openCheckoutModal() {
+        if (!cart.length)
+          return alert(
+            currentLang === "ar" ? "سلة الشراء فارغة!" : "Your cart is empty!",
+          );
+        closeCart();
+        document.getElementById("checkoutModal").classList.add("active");
+      }
+      function closeCheckoutModal() {
+        document.getElementById("checkoutModal").classList.remove("active");
+      }
+
+      (function () {
+        const originalSubmitOrder = window.submitOrder;
+        window.submitOrder = function (e) {
+          e.preventDefault();
+          const name = document.getElementById("custName").value;
+          const phone = document.getElementById("custPhone").value;
+          const addr = document.getElementById("custAddress").value;
+          const t = i18n[currentLang];
+
+          let msg = `New Order from AMER Scrubs:\nName: ${name}\nPhone: ${phone}\nAddress: ${addr}\n\nItems:\n`;
+          let total = 0;
+          cart.forEach((c, i) => {
+            total += c.price * c.qty;
+            msg += `${i + 1}. ${c.title[currentLang]} (Size: ${c.size}) × ${c.qty} = ${c.price * c.qty} ${t.currency}\n`;
+          });
+          msg += `\nTotal: ${total} ${t.currency}`;
+
+          window.open(
+            `https://wa.me/+201027530749?text=${encodeURIComponent(msg)}`,
+            "_blank",
+          );
+          cart = [];
+          updateCartUI();
+          closeCheckoutModal();
+        };
+      })();
+
+      function toggleMenu() {
+        document.getElementById("navLinks").classList.toggle("active");
+      }
+
+      applyTheme(currentTheme);
+      applyTranslations();
+      renderProducts(productsData);
+
+      setTimeout(() => {
+        closeWelcomeScreen();
+      }, 2500);
+    </script>
+  </body>
+</html>
